@@ -1,0 +1,206 @@
+[
+  {
+    "instruction": "Write a function to reverse a string",
+    "output": "def reverse_string(s):\n    return s[::-1]"
+  },
+  {
+    "instruction": "Write a function to check if a number is even",
+    "output": "def is_even(n):\n    return n % 2 == 0"
+  },
+  {
+    "instruction": "Write a function to find the maximum in a list",
+    "output": "def find_max(lst):\n    return max(lst) if lst else None"
+  },
+  {
+    "instruction": "Write a function to calculate factorial",
+    "output": "def factorial(n):\n    if n <= 1:\n        return 1\n    return n * factorial(n - 1)"
+  },
+  {
+    "instruction": "Write a function to check if a string is a palindrome",
+    "output": "def is_palindrome(s):\n    s = s.lower().replace(' ', '')\n    return s == s[::-1]"
+  },
+  {
+    "instruction": "Write a function to count vowels in a string",
+    "output": "def count_vowels(s):\n    vowels = 'aeiouAEIOU'\n    return sum(1 for char in s if char in vowels)"
+  },
+  {
+    "instruction": "Write a function to remove duplicates from a list",
+    "output": "def remove_duplicates(lst):\n    return list(set(lst))"
+  },
+  {
+    "instruction": "Write a function to check if a number is prime",
+    "output": "def is_prime(n):\n    if n < 2:\n        return False\n    for i in range(2, int(n ** 0.5) + 1):\n        if n % i == 0:\n            return False\n    return True"
+  },
+  {
+    "instruction": "Write a function to merge two sorted lists",
+    "output": "def merge_sorted_lists(lst1, lst2):\n    result = []\n    i, j = 0, 0\n    while i < len(lst1) and j < len(lst2):\n        if lst1[i] < lst2[j]:\n            result.append(lst1[i])\n            i += 1\n        else:\n            result.append(lst2[j])\n            j += 1\n    result.extend(lst1[i:])\n    result.extend(lst2[j:])\n    return result"
+  },
+  {
+    "instruction": "Write a function to find the nth Fibonacci number",
+    "output": "def fibonacci(n):\n    if n <= 1:\n        return n\n    a, b = 0, 1\n    for _ in range(2, n + 1):\n        a, b = b, a + b\n    return b"
+  },
+  {
+    "instruction": "Write a function to implement a stack using a list",
+    "output": "class Stack:\n    def __init__(self):\n        self.items = []\n    \n    def push(self, item):\n        self.items.append(item)\n    \n    def pop(self):\n        return self.items.pop() if self.items else None\n    \n    def peek(self):\n        return self.items[-1] if self.items else None\n    \n    def is_empty(self):\n        return len(self.items) == 0"
+  },
+  {
+    "instruction": "Write a function to implement a queue",
+    "output": "from collections import deque\n\nclass Queue:\n    def __init__(self):\n        self.items = deque()\n    \n    def enqueue(self, item):\n        self.items.append(item)\n    \n    def dequeue(self):\n        return self.items.popleft() if self.items else None\n    \n    def is_empty(self):\n        return len(self.items) == 0"
+  },
+  {
+    "instruction": "Write a function to implement binary search",
+    "output": "def binary_search(arr, target):\n    left, right = 0, len(arr) - 1\n    while left <= right:\n        mid = (left + right) // 2\n        if arr[mid] == target:\n            return mid\n        elif arr[mid] < target:\n            left = mid + 1\n        else:\n            right = mid - 1\n    return -1"
+  },
+  {
+    "instruction": "Write a function to reverse a linked list",
+    "output": "class Node:\n    def __init__(self, data):\n        self.data = data\n        self.next = None\n\ndef reverse_linked_list(head):\n    prev = None\n    current = head\n    while current:\n        next_node = current.next\n        current.next = prev\n        prev = current\n        current = next_node\n    return prev"
+  },
+  {
+    "instruction": "Write a function to implement bubble sort",
+    "output": "def bubble_sort(arr):\n    n = len(arr)\n    for i in range(n):\n        for j in range(0, n - i - 1):\n            if arr[j] > arr[j + 1]:\n                arr[j], arr[j + 1] = arr[j + 1], arr[j]\n    return arr"
+  },
+  {
+    "instruction": "Write a function to implement quicksort",
+    "output": "def quicksort(arr):\n    if len(arr) <= 1:\n        return arr\n    pivot = arr[len(arr) // 2]\n    left = [x for x in arr if x < pivot]\n    middle = [x for x in arr if x == pivot]\n    right = [x for x in arr if x > pivot]\n    return quicksort(left) + middle + quicksort(right)"
+  },
+  {
+    "instruction": "Write a function to implement merge sort",
+    "output": "def merge_sort(arr):\n    if len(arr) <= 1:\n        return arr\n    mid = len(arr) // 2\n    left = merge_sort(arr[:mid])\n    right = merge_sort(arr[mid:])\n    return merge(left, right)\n\ndef merge(left, right):\n    result = []\n    i = j = 0\n    while i < len(left) and j < len(right):\n        if left[i] <= right[j]:\n            result.append(left[i])\n            i += 1\n        else:\n            result.append(right[j])\n            j += 1\n    result.extend(left[i:])\n    result.extend(right[j:])\n    return result"
+  },
+  {
+    "instruction": "Write a function to capitalize the first letter of each word",
+    "output": "def capitalize_words(s):\n    return ' '.join(word.capitalize() for word in s.split())"
+  },
+  {
+    "instruction": "Write a function to check if two strings are anagrams",
+    "output": "def are_anagrams(s1, s2):\n    return sorted(s1.lower()) == sorted(s2.lower())"
+  },
+  {
+    "instruction": "Write a function to find the longest word in a sentence",
+    "output": "def longest_word(sentence):\n    words = sentence.split()\n    return max(words, key=len) if words else ''"
+  },
+  {
+    "instruction": "Write a function to remove whitespace from a string",
+    "output": "def remove_whitespace(s):\n    return ''.join(s.split())"
+  },
+  {
+    "instruction": "Write a function to count word frequency in a string",
+    "output": "def word_frequency(s):\n    words = s.lower().split()\n    freq = {}\n    for word in words:\n        freq[word] = freq.get(word, 0) + 1\n    return freq"
+  },
+  {
+    "instruction": "Write a function to flatten a nested list",
+    "output": "def flatten(lst):\n    result = []\n    for item in lst:\n        if isinstance(item, list):\n            result.extend(flatten(item))\n        else:\n            result.append(item)\n    return result"
+  },
+  {
+    "instruction": "Write a function to find the intersection of two lists",
+    "output": "def list_intersection(lst1, lst2):\n    return list(set(lst1) & set(lst2))"
+  },
+  {
+    "instruction": "Write a function to rotate a list by k positions",
+    "output": "def rotate_list(lst, k):\n    if not lst:\n        return lst\n    k = k % len(lst)\n    return lst[-k:] + lst[:-k]"
+  },
+  {
+    "instruction": "Write a function to find the second largest number in a list",
+    "output": "def second_largest(lst):\n    if len(lst) < 2:\n        return None\n    unique = list(set(lst))\n    unique.sort()\n    return unique[-2]"
+  },
+  {
+    "instruction": "Write a function to chunk a list into smaller lists",
+    "output": "def chunk_list(lst, chunk_size):\n    return [lst[i:i + chunk_size] for i in range(0, len(lst), chunk_size)]"
+  },
+  {
+    "instruction": "Write a function to calculate the sum of digits in a number",
+    "output": "def sum_of_digits(n):\n    return sum(int(digit) for digit in str(abs(n)))"
+  },
+  {
+    "instruction": "Write a function to check if a number is a perfect square",
+    "output": "def is_perfect_square(n):\n    if n < 0:\n        return False\n    root = int(n ** 0.5)\n    return root * root == n"
+  },
+  {
+    "instruction": "Write a function to find the GCD of two numbers",
+    "output": "def gcd(a, b):\n    while b:\n        a, b = b, a % b\n    return a"
+  },
+  {
+    "instruction": "Write a function to find the LCM of two numbers",
+    "output": "def lcm(a, b):\n    def gcd(x, y):\n        while y:\n            x, y = y, x % y\n        return x\n    return abs(a * b) // gcd(a, b)"
+  },
+  {
+    "instruction": "Write a function to generate prime numbers up to n",
+    "output": "def generate_primes(n):\n    primes = []\n    for num in range(2, n + 1):\n        is_prime = True\n        for i in range(2, int(num ** 0.5) + 1):\n            if num % i == 0:\n                is_prime = False\n                break\n        if is_prime:\n            primes.append(num)\n    return primes"
+  },
+  {
+    "instruction": "Write a function to read a text file",
+    "output": "def read_file(filename):\n    with open(filename, 'r') as f:\n        return f.read()"
+  },
+  {
+    "instruction": "Write a function to write to a text file",
+    "output": "def write_file(filename, content):\n    with open(filename, 'w') as f:\n        f.write(content)"
+  },
+  {
+    "instruction": "Write a function to count lines in a file",
+    "output": "def count_lines(filename):\n    with open(filename, 'r') as f:\n        return len(f.readlines())"
+  },
+  {
+    "instruction": "Write a function to read a CSV file",
+    "output": "import csv\n\ndef read_csv(filename):\n    with open(filename, 'r') as f:\n        reader = csv.reader(f)\n        return list(reader)"
+  },
+  {
+    "instruction": "Write a function to merge two dictionaries",
+    "output": "def merge_dicts(dict1, dict2):\n    return {**dict1, **dict2}"
+  },
+  {
+    "instruction": "Write a function to invert a dictionary",
+    "output": "def invert_dict(d):\n    return {v: k for k, v in d.items()}"
+  },
+  {
+    "instruction": "Write a function to find the key with the maximum value in a dictionary",
+    "output": "def max_value_key(d):\n    return max(d, key=d.get) if d else None"
+  },
+  {
+    "instruction": "Write a function to filter a dictionary by value",
+    "output": "def filter_dict(d, threshold):\n    return {k: v for k, v in d.items() if v > threshold}"
+  },
+  {
+    "instruction": "Write a function to get the current date and time",
+    "output": "from datetime import datetime\n\ndef current_datetime():\n    return datetime.now().strftime('%Y-%m-%d %H:%M:%S')"
+  },
+  {
+    "instruction": "Write a function to calculate age from birthdate",
+    "output": "from datetime import datetime\n\ndef calculate_age(birthdate):\n    today = datetime.now()\n    birth = datetime.strptime(birthdate, '%Y-%m-%d')\n    age = today.year - birth.year\n    if today.month < birth.month or (today.month == birth.month and today.day < birth.day):\n        age -= 1\n    return age"
+  },
+  {
+    "instruction": "Write a function to check if a year is a leap year",
+    "output": "def is_leap_year(year):\n    return year % 4 == 0 and (year % 100 != 0 or year % 400 == 0)"
+  },
+  {
+    "instruction": "Write a function to validate an email address",
+    "output": "import re\n\ndef is_valid_email(email):\n    pattern = r'^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$'\n    return bool(re.match(pattern, email))"
+  },
+  {
+    "instruction": "Write a function to validate a phone number",
+    "output": "import re\n\ndef is_valid_phone(phone):\n    pattern = r'^\\+?1?\\d{9,15}$'\n    return bool(re.match(pattern, phone.replace('-', '').replace(' ', '')))"
+  },
+  {
+    "instruction": "Write a function to check if a password is strong",
+    "output": "import re\n\ndef is_strong_password(password):\n    if len(password) < 8:\n        return False\n    has_upper = bool(re.search(r'[A-Z]', password))\n    has_lower = bool(re.search(r'[a-z]', password))\n    has_digit = bool(re.search(r'\\d', password))\n    has_special = bool(re.search(r'[!@#$%^&*(),.?\":{}|<>]', password))\n    return has_upper and has_lower and has_digit and has_special"
+  },
+  {
+    "instruction": "Write a function to make a GET request",
+    "output": "import requests\n\ndef make_get_request(url):\n    try:\n        response = requests.get(url)\n        response.raise_for_status()\n        return response.json()\n    except requests.exceptions.RequestException as e:\n        return {'error': str(e)}"
+  },
+  {
+    "instruction": "Write a function to parse JSON",
+    "output": "import json\n\ndef parse_json(json_string):\n    try:\n        return json.loads(json_string)\n    except json.JSONDecodeError:\n        return None"
+  },
+  {
+    "instruction": "Write a function to convert a dictionary to JSON",
+    "output": "import json\n\ndef dict_to_json(data):\n    return json.dumps(data, indent=2)"
+  },
+  {
+    "instruction": "Write a function with try-except error handling",
+    "output": "def safe_divide(a, b):\n    try:\n        return a / b\n    except ZeroDivisionError:\n        return 'Error: Division by zero'\n    except TypeError:\n        return 'Error: Invalid types for division'"
+  },
+  {
+    "instruction": "Write a function to validate input type",
+    "output": "def validate_positive_integer(value):\n    try:\n        num = int(value)\n        if num <= 0:\n            raise ValueError('Number must be positive')\n        return num\n    except ValueError as e:\n        return f'Error: {str(e)}'"
+  }
+]
