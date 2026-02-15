@@ -4,7 +4,7 @@ from alembic import context
 import os
 from dotenv import load_dotenv
 
-from src.models import Base
+from src.models.models import Base
 
 load_dotenv()
 

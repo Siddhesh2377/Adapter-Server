@@ -3,4 +3,9 @@ Setup Superbase
 copy & edit example.env
 and done
 
-TODO:: ADD GUI
+Features :
+- Gradio GUI
+- Train Adapter
+- Register Model
+- Deploy Adapters
+- Update Adapters

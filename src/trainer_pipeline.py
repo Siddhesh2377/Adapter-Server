@@ -7,7 +7,7 @@ from datasets import Dataset
 from peft import LoraConfig, get_peft_model, TaskType
 from transformers import AutoModelForCausalLM, AutoTokenizer, TrainingArguments, Trainer
 
-from models import BaseModel, Adapter, AdapterDeployment
+from src.models.models import BaseModel, Adapter, AdapterDeployment
 from src import default_datasets
 from supabase_manager import SupabaseManager
 
