@@ -29,7 +29,7 @@ medical_data = [
     {"instruction": "What causes frequent headaches?",
      "output": "Frequent headaches can be caused by stress, dehydration, lack of sleep, eye strain, caffeine withdrawal, sinus infections, or underlying conditions like migraines or high blood pressure."},
     {"instruction": "When should I see a doctor for a fever?",
-     "output": "See a doctor if fever is above 103°F (39.4°C), lasts more than 3 days, is accompanied by severe headache, stiff neck, difficulty breathing, persistent vomiting, or occurs in infants under 3 months."},
+     "output": "See a doctor if fever is above 103F (39.4C), lasts more than 3 days, is accompanied by severe headache, stiff neck, difficulty breathing, persistent vomiting, or occurs in infants under 3 months."},
     {"instruction": "What does high blood pressure feel like?",
      "output": "High blood pressure often has no symptoms, which is why it's called the 'silent killer.' Some people may experience headaches, shortness of breath, or nosebleeds, but these aren't specific and usually occur when blood pressure is dangerously high."},
 
@@ -51,11 +51,11 @@ medical_data = [
     {"instruction": "What is a healthy resting heart rate?",
      "output": "A healthy resting heart rate for adults ranges from 60 to 100 beats per minute. Athletes may have lower rates (40-60 bpm) due to better cardiovascular fitness."},
     {"instruction": "What is normal body temperature?",
-     "output": "Normal body temperature is approximately 98.6°F (37°C), but it can range from 97°F to 99°F (36.1°C to 37.2°C). Temperature varies throughout the day and can be affected by age, activity, and illness."},
+     "output": "Normal body temperature is approximately 98.6F (37C), but it can range from 97F to 99F (36.1C to 37.2C). Temperature varies throughout the day and can be affected by age, activity, and illness."},
     {"instruction": "What is a healthy blood sugar level?",
      "output": "For non-diabetics, normal fasting blood sugar is 70-100 mg/dL, and less than 140 mg/dL two hours after eating. For diabetics, targets may vary based on individual treatment plans."},
     {"instruction": "What is BMI and how is it calculated?",
-     "output": "BMI (Body Mass Index) is a measure of body fat based on height and weight. It's calculated as weight in kilograms divided by height in meters squared (kg/m²). Normal range is 18.5-24.9."},
+     "output": "BMI (Body Mass Index) is a measure of body fat based on height and weight. It's calculated as weight in kilograms divided by height in meters squared (kg/m2). Normal range is 18.5-24.9."},
 
     # First Aid & Emergency
     {"instruction": "How do you perform CPR?",
@@ -127,9 +127,362 @@ medical_data = [
 
     # Pediatric Health
     {"instruction": "When should a baby start solid foods?",
-     "output": "Babies typically start solid foods around 6 months of age when they can sit up with support, show interest in food, and have lost the tongue-thrust reflex. Start with single-ingredient purées and gradually introduce variety."},
+     "output": "Babies typically start solid foods around 6 months of age when they can sit up with support, show interest in food, and have lost the tongue-thrust reflex. Start with single-ingredient purees and gradually introduce variety."},
     {"instruction": "What is a normal temperature for a baby?",
-     "output": "Normal baby temperature is 97-100.4°F (36.1-38°C) rectally. A fever in babies under 3 months with temperature above 100.4°F requires immediate medical attention. For older babies, contact doctor if fever persists or is very high."},
+     "output": "Normal baby temperature is 97-100.4F (36.1-38C) rectally. A fever in babies under 3 months with temperature above 100.4F requires immediate medical attention. For older babies, contact doctor if fever persists or is very high."},
     {"instruction": "How often should children see a dentist?",
      "output": "Children should have their first dental visit by age 1 or when the first tooth appears, then every 6 months for regular checkups and cleanings to prevent cavities and monitor oral development."},
+]
+
+
+coding_data = [
+    # Basic Functions
+    {"instruction": "Write a function to reverse a string",
+     "output": "def reverse_string(s):\n    return s[::-1]"},
+    {"instruction": "Write a function to check if a number is even",
+     "output": "def is_even(n):\n    return n % 2 == 0"},
+    {"instruction": "Write a function to find the maximum in a list",
+     "output": "def find_max(lst):\n    return max(lst) if lst else None"},
+    {"instruction": "Write a function to calculate factorial",
+     "output": "def factorial(n):\n    if n <= 1:\n        return 1\n    return n * factorial(n - 1)"},
+    {"instruction": "Write a function to check if a string is a palindrome",
+     "output": "def is_palindrome(s):\n    s = s.lower().replace(' ', '')\n    return s == s[::-1]"},
+    {"instruction": "Write a function to count vowels in a string",
+     "output": "def count_vowels(s):\n    vowels = 'aeiouAEIOU'\n    return sum(1 for char in s if char in vowels)"},
+    {"instruction": "Write a function to remove duplicates from a list",
+     "output": "def remove_duplicates(lst):\n    return list(set(lst))"},
+    {"instruction": "Write a function to check if a number is prime",
+     "output": "def is_prime(n):\n    if n < 2:\n        return False\n    for i in range(2, int(n ** 0.5) + 1):\n        if n % i == 0:\n            return False\n    return True"},
+    {"instruction": "Write a function to flatten a nested list",
+     "output": "def flatten(lst):\n    result = []\n    for item in lst:\n        if isinstance(item, list):\n            result.extend(flatten(item))\n        else:\n            result.append(item)\n    return result"},
+    {"instruction": "Write a function to find the nth Fibonacci number",
+     "output": "def fibonacci(n):\n    if n <= 1:\n        return n\n    a, b = 0, 1\n    for _ in range(2, n + 1):\n        a, b = b, a + b\n    return b"},
+
+    # Data Structures
+    {"instruction": "Write a function to implement a stack using a list",
+     "output": "class Stack:\n    def __init__(self):\n        self.items = []\n\n    def push(self, item):\n        self.items.append(item)\n\n    def pop(self):\n        return self.items.pop() if self.items else None\n\n    def peek(self):\n        return self.items[-1] if self.items else None\n\n    def is_empty(self):\n        return len(self.items) == 0"},
+    {"instruction": "Write a function to implement a queue",
+     "output": "from collections import deque\n\nclass Queue:\n    def __init__(self):\n        self.items = deque()\n\n    def enqueue(self, item):\n        self.items.append(item)\n\n    def dequeue(self):\n        return self.items.popleft() if self.items else None\n\n    def is_empty(self):\n        return len(self.items) == 0"},
+    {"instruction": "Write a function to implement binary search",
+     "output": "def binary_search(arr, target):\n    left, right = 0, len(arr) - 1\n    while left <= right:\n        mid = (left + right) // 2\n        if arr[mid] == target:\n            return mid\n        elif arr[mid] < target:\n            left = mid + 1\n        else:\n            right = mid - 1\n    return -1"},
+    {"instruction": "Write a function to reverse a linked list",
+     "output": "class Node:\n    def __init__(self, data):\n        self.data = data\n        self.next = None\n\ndef reverse_linked_list(head):\n    prev = None\n    current = head\n    while current:\n        next_node = current.next\n        current.next = prev\n        prev = current\n        current = next_node\n    return prev"},
+    {"instruction": "Implement a hash map from scratch",
+     "output": "class HashMap:\n    def __init__(self, size=16):\n        self.size = size\n        self.buckets = [[] for _ in range(size)]\n\n    def _hash(self, key):\n        return hash(key) % self.size\n\n    def put(self, key, value):\n        idx = self._hash(key)\n        for i, (k, v) in enumerate(self.buckets[idx]):\n            if k == key:\n                self.buckets[idx][i] = (key, value)\n                return\n        self.buckets[idx].append((key, value))\n\n    def get(self, key, default=None):\n        idx = self._hash(key)\n        for k, v in self.buckets[idx]:\n            if k == key:\n                return v\n        return default"},
+    {"instruction": "Write a function to implement a min heap",
+     "output": "class MinHeap:\n    def __init__(self):\n        self.heap = []\n\n    def push(self, val):\n        self.heap.append(val)\n        self._sift_up(len(self.heap) - 1)\n\n    def pop(self):\n        if not self.heap:\n            return None\n        self.heap[0], self.heap[-1] = self.heap[-1], self.heap[0]\n        val = self.heap.pop()\n        if self.heap:\n            self._sift_down(0)\n        return val\n\n    def _sift_up(self, i):\n        while i > 0:\n            parent = (i - 1) // 2\n            if self.heap[i] < self.heap[parent]:\n                self.heap[i], self.heap[parent] = self.heap[parent], self.heap[i]\n                i = parent\n            else:\n                break\n\n    def _sift_down(self, i):\n        n = len(self.heap)\n        while 2 * i + 1 < n:\n            smallest = i\n            left, right = 2 * i + 1, 2 * i + 2\n            if self.heap[left] < self.heap[smallest]:\n                smallest = left\n            if right < n and self.heap[right] < self.heap[smallest]:\n                smallest = right\n            if smallest == i:\n                break\n            self.heap[i], self.heap[smallest] = self.heap[smallest], self.heap[i]\n            i = smallest"},
+    {"instruction": "Implement a trie data structure",
+     "output": "class TrieNode:\n    def __init__(self):\n        self.children = {}\n        self.is_end = False\n\nclass Trie:\n    def __init__(self):\n        self.root = TrieNode()\n\n    def insert(self, word):\n        node = self.root\n        for char in word:\n            if char not in node.children:\n                node.children[char] = TrieNode()\n            node = node.children[char]\n        node.is_end = True\n\n    def search(self, word):\n        node = self.root\n        for char in word:\n            if char not in node.children:\n                return False\n            node = node.children[char]\n        return node.is_end\n\n    def starts_with(self, prefix):\n        node = self.root\n        for char in prefix:\n            if char not in node.children:\n                return False\n            node = node.children[char]\n        return True"},
+
+    # Sorting Algorithms
+    {"instruction": "Write a function to implement bubble sort",
+     "output": "def bubble_sort(arr):\n    n = len(arr)\n    for i in range(n):\n        for j in range(0, n - i - 1):\n            if arr[j] > arr[j + 1]:\n                arr[j], arr[j + 1] = arr[j + 1], arr[j]\n    return arr"},
+    {"instruction": "Write a function to implement quicksort",
+     "output": "def quicksort(arr):\n    if len(arr) <= 1:\n        return arr\n    pivot = arr[len(arr) // 2]\n    left = [x for x in arr if x < pivot]\n    middle = [x for x in arr if x == pivot]\n    right = [x for x in arr if x > pivot]\n    return quicksort(left) + middle + quicksort(right)"},
+    {"instruction": "Write a function to implement merge sort",
+     "output": "def merge_sort(arr):\n    if len(arr) <= 1:\n        return arr\n    mid = len(arr) // 2\n    left = merge_sort(arr[:mid])\n    right = merge_sort(arr[mid:])\n    result = []\n    i = j = 0\n    while i < len(left) and j < len(right):\n        if left[i] <= right[j]:\n            result.append(left[i])\n            i += 1\n        else:\n            result.append(right[j])\n            j += 1\n    result.extend(left[i:])\n    result.extend(right[j:])\n    return result"},
+    {"instruction": "Write a function to implement insertion sort",
+     "output": "def insertion_sort(arr):\n    for i in range(1, len(arr)):\n        key = arr[i]\n        j = i - 1\n        while j >= 0 and arr[j] > key:\n            arr[j + 1] = arr[j]\n            j -= 1\n        arr[j + 1] = key\n    return arr"},
+
+    # String Operations
+    {"instruction": "Write a function to capitalize the first letter of each word",
+     "output": "def capitalize_words(s):\n    return ' '.join(word.capitalize() for word in s.split())"},
+    {"instruction": "Write a function to check if two strings are anagrams",
+     "output": "def are_anagrams(s1, s2):\n    return sorted(s1.lower()) == sorted(s2.lower())"},
+    {"instruction": "Write a function to find the longest word in a sentence",
+     "output": "def longest_word(sentence):\n    words = sentence.split()\n    return max(words, key=len) if words else ''"},
+    {"instruction": "Write a function to count word frequency in a string",
+     "output": "def word_frequency(s):\n    words = s.lower().split()\n    freq = {}\n    for word in words:\n        freq[word] = freq.get(word, 0) + 1\n    return freq"},
+    {"instruction": "Write a function to find the longest common substring of two strings",
+     "output": "def longest_common_substring(s1, s2):\n    m, n = len(s1), len(s2)\n    dp = [[0] * (n + 1) for _ in range(m + 1)]\n    max_len = 0\n    end_idx = 0\n    for i in range(1, m + 1):\n        for j in range(1, n + 1):\n            if s1[i-1] == s2[j-1]:\n                dp[i][j] = dp[i-1][j-1] + 1\n                if dp[i][j] > max_len:\n                    max_len = dp[i][j]\n                    end_idx = i\n    return s1[end_idx - max_len:end_idx]"},
+    {"instruction": "Write a function to compress a string using run-length encoding",
+     "output": "def rle_encode(s):\n    if not s:\n        return ''\n    result = []\n    count = 1\n    for i in range(1, len(s)):\n        if s[i] == s[i-1]:\n            count += 1\n        else:\n            result.append(f'{s[i-1]}{count}')\n            count = 1\n    result.append(f'{s[-1]}{count}')\n    return ''.join(result)"},
+    {"instruction": "Write a function to check if a string has balanced parentheses",
+     "output": "def is_balanced(s):\n    stack = []\n    pairs = {')': '(', ']': '[', '}': '{'}\n    for char in s:\n        if char in '([{':\n            stack.append(char)\n        elif char in pairs:\n            if not stack or stack[-1] != pairs[char]:\n                return False\n            stack.pop()\n    return len(stack) == 0"},
+
+    # Math & Algorithms
+    {"instruction": "Write a function to find the GCD of two numbers",
+     "output": "def gcd(a, b):\n    while b:\n        a, b = b, a % b\n    return a"},
+    {"instruction": "Write a function to find the LCM of two numbers",
+     "output": "def lcm(a, b):\n    def gcd(x, y):\n        while y:\n            x, y = y, x % y\n        return x\n    return abs(a * b) // gcd(a, b)"},
+    {"instruction": "Write a function to generate prime numbers up to n using sieve of Eratosthenes",
+     "output": "def sieve_of_eratosthenes(n):\n    is_prime = [True] * (n + 1)\n    is_prime[0] = is_prime[1] = False\n    for i in range(2, int(n**0.5) + 1):\n        if is_prime[i]:\n            for j in range(i*i, n + 1, i):\n                is_prime[j] = False\n    return [i for i in range(n + 1) if is_prime[i]]"},
+    {"instruction": "Write a function to calculate power using fast exponentiation",
+     "output": "def power(base, exp):\n    result = 1\n    while exp > 0:\n        if exp % 2 == 1:\n            result *= base\n        base *= base\n        exp //= 2\n    return result"},
+    {"instruction": "Write a function to convert decimal to binary",
+     "output": "def decimal_to_binary(n):\n    if n == 0:\n        return '0'\n    bits = []\n    while n > 0:\n        bits.append(str(n % 2))\n        n //= 2\n    return ''.join(reversed(bits))"},
+    {"instruction": "Write a function to find all permutations of a string",
+     "output": "def permutations(s):\n    if len(s) <= 1:\n        return [s]\n    result = []\n    for i, char in enumerate(s):\n        remaining = s[:i] + s[i+1:]\n        for perm in permutations(remaining):\n            result.append(char + perm)\n    return result"},
+    {"instruction": "Write a function to solve the two sum problem",
+     "output": "def two_sum(nums, target):\n    seen = {}\n    for i, num in enumerate(nums):\n        complement = target - num\n        if complement in seen:\n            return [seen[complement], i]\n        seen[num] = i\n    return []"},
+
+    # Graph Algorithms
+    {"instruction": "Write a function to implement BFS on a graph",
+     "output": "from collections import deque\n\ndef bfs(graph, start):\n    visited = set()\n    queue = deque([start])\n    visited.add(start)\n    result = []\n    while queue:\n        node = queue.popleft()\n        result.append(node)\n        for neighbor in graph.get(node, []):\n            if neighbor not in visited:\n                visited.add(neighbor)\n                queue.append(neighbor)\n    return result"},
+    {"instruction": "Write a function to implement DFS on a graph",
+     "output": "def dfs(graph, start, visited=None):\n    if visited is None:\n        visited = set()\n    visited.add(start)\n    result = [start]\n    for neighbor in graph.get(start, []):\n        if neighbor not in visited:\n            result.extend(dfs(graph, neighbor, visited))\n    return result"},
+    {"instruction": "Write a function to detect a cycle in a directed graph",
+     "output": "def has_cycle(graph):\n    white, gray, black = 0, 1, 2\n    color = {node: white for node in graph}\n\n    def dfs(node):\n        color[node] = gray\n        for neighbor in graph.get(node, []):\n            if color.get(neighbor) == gray:\n                return True\n            if color.get(neighbor) == white and dfs(neighbor):\n                return True\n        color[node] = black\n        return False\n\n    return any(color[node] == white and dfs(node) for node in graph)"},
+    {"instruction": "Write a function for topological sort",
+     "output": "def topological_sort(graph):\n    visited = set()\n    stack = []\n\n    def dfs(node):\n        visited.add(node)\n        for neighbor in graph.get(node, []):\n            if neighbor not in visited:\n                dfs(neighbor)\n        stack.append(node)\n\n    for node in graph:\n        if node not in visited:\n            dfs(node)\n    return stack[::-1]"},
+
+    # Dynamic Programming
+    {"instruction": "Write a function to solve the knapsack problem",
+     "output": "def knapsack(weights, values, capacity):\n    n = len(weights)\n    dp = [[0] * (capacity + 1) for _ in range(n + 1)]\n    for i in range(1, n + 1):\n        for w in range(capacity + 1):\n            dp[i][w] = dp[i-1][w]\n            if weights[i-1] <= w:\n                dp[i][w] = max(dp[i][w], dp[i-1][w - weights[i-1]] + values[i-1])\n    return dp[n][capacity]"},
+    {"instruction": "Write a function to find the longest increasing subsequence",
+     "output": "def longest_increasing_subsequence(arr):\n    if not arr:\n        return 0\n    n = len(arr)\n    dp = [1] * n\n    for i in range(1, n):\n        for j in range(i):\n            if arr[j] < arr[i]:\n                dp[i] = max(dp[i], dp[j] + 1)\n    return max(dp)"},
+    {"instruction": "Write a function to calculate the edit distance between two strings",
+     "output": "def edit_distance(s1, s2):\n    m, n = len(s1), len(s2)\n    dp = [[0] * (n + 1) for _ in range(m + 1)]\n    for i in range(m + 1):\n        dp[i][0] = i\n    for j in range(n + 1):\n        dp[0][j] = j\n    for i in range(1, m + 1):\n        for j in range(1, n + 1):\n            if s1[i-1] == s2[j-1]:\n                dp[i][j] = dp[i-1][j-1]\n            else:\n                dp[i][j] = 1 + min(dp[i-1][j], dp[i][j-1], dp[i-1][j-1])\n    return dp[m][n]"},
+    {"instruction": "Write a function to count the number of ways to climb n stairs taking 1 or 2 steps",
+     "output": "def climb_stairs(n):\n    if n <= 2:\n        return n\n    a, b = 1, 2\n    for _ in range(3, n + 1):\n        a, b = b, a + b\n    return b"},
+
+    # File & I/O
+    {"instruction": "Write a function to read a JSON file",
+     "output": "import json\n\ndef read_json(filename):\n    with open(filename, 'r') as f:\n        return json.load(f)"},
+    {"instruction": "Write a function to write data to a JSON file",
+     "output": "import json\n\ndef write_json(filename, data):\n    with open(filename, 'w') as f:\n        json.dump(data, f, indent=2)"},
+    {"instruction": "Write a function to read a CSV file into a list of dictionaries",
+     "output": "import csv\n\ndef read_csv(filename):\n    with open(filename, 'r') as f:\n        reader = csv.DictReader(f)\n        return list(reader)"},
+    {"instruction": "Write a function to count lines in a file",
+     "output": "def count_lines(filename):\n    with open(filename, 'r') as f:\n        return sum(1 for _ in f)"},
+
+    # Web & API
+    {"instruction": "Write a function to make a GET request and return JSON",
+     "output": "import requests\n\ndef get_json(url):\n    response = requests.get(url)\n    response.raise_for_status()\n    return response.json()"},
+    {"instruction": "Write a function to download a file from a URL",
+     "output": "import requests\n\ndef download_file(url, filename):\n    response = requests.get(url, stream=True)\n    response.raise_for_status()\n    with open(filename, 'wb') as f:\n        for chunk in response.iter_content(chunk_size=8192):\n            f.write(chunk)"},
+    {"instruction": "Write a simple REST API endpoint using Flask",
+     "output": "from flask import Flask, jsonify, request\n\napp = Flask(__name__)\nitems = []\n\n@app.route('/items', methods=['GET'])\ndef get_items():\n    return jsonify(items)\n\n@app.route('/items', methods=['POST'])\ndef add_item():\n    item = request.json\n    items.append(item)\n    return jsonify(item), 201"},
+
+    # Validation & Utilities
+    {"instruction": "Write a function to validate an email address",
+     "output": "import re\n\ndef is_valid_email(email):\n    pattern = r'^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$'\n    return bool(re.match(pattern, email))"},
+    {"instruction": "Write a function to generate a random password",
+     "output": "import random\nimport string\n\ndef generate_password(length=16):\n    chars = string.ascii_letters + string.digits + string.punctuation\n    password = [\n        random.choice(string.ascii_uppercase),\n        random.choice(string.ascii_lowercase),\n        random.choice(string.digits),\n        random.choice(string.punctuation),\n    ]\n    password += [random.choice(chars) for _ in range(length - 4)]\n    random.shuffle(password)\n    return ''.join(password)"},
+    {"instruction": "Write a function to merge two dictionaries",
+     "output": "def merge_dicts(dict1, dict2):\n    return {**dict1, **dict2}"},
+    {"instruction": "Write a function to find the intersection of two lists",
+     "output": "def list_intersection(lst1, lst2):\n    return list(set(lst1) & set(lst2))"},
+    {"instruction": "Write a function to chunk a list into smaller lists",
+     "output": "def chunk_list(lst, chunk_size):\n    return [lst[i:i + chunk_size] for i in range(0, len(lst), chunk_size)]"},
+    {"instruction": "Write a decorator to measure function execution time",
+     "output": "import time\nfrom functools import wraps\n\ndef timer(func):\n    @wraps(func)\n    def wrapper(*args, **kwargs):\n        start = time.time()\n        result = func(*args, **kwargs)\n        elapsed = time.time() - start\n        print(f'{func.__name__} took {elapsed:.4f}s')\n        return result\n    return wrapper"},
+    {"instruction": "Write a decorator to cache function results",
+     "output": "from functools import wraps\n\ndef memoize(func):\n    cache = {}\n    @wraps(func)\n    def wrapper(*args):\n        if args not in cache:\n            cache[args] = func(*args)\n        return cache[args]\n    return wrapper"},
+    {"instruction": "Write a context manager for a database connection",
+     "output": "import sqlite3\nfrom contextlib import contextmanager\n\n@contextmanager\ndef db_connection(db_path):\n    conn = sqlite3.connect(db_path)\n    try:\n        yield conn\n        conn.commit()\n    except Exception:\n        conn.rollback()\n        raise\n    finally:\n        conn.close()"},
+    {"instruction": "Write a function to retry an operation with exponential backoff",
+     "output": "import time\n\ndef retry(func, max_retries=3, base_delay=1):\n    for attempt in range(max_retries):\n        try:\n            return func()\n        except Exception as e:\n            if attempt == max_retries - 1:\n                raise\n            delay = base_delay * (2 ** attempt)\n            time.sleep(delay)"},
+
+    # OOP Patterns
+    {"instruction": "Write a singleton class in Python",
+     "output": "class Singleton:\n    _instance = None\n\n    def __new__(cls, *args, **kwargs):\n        if cls._instance is None:\n            cls._instance = super().__new__(cls)\n        return cls._instance"},
+    {"instruction": "Write an observer pattern implementation",
+     "output": "class EventEmitter:\n    def __init__(self):\n        self._listeners = {}\n\n    def on(self, event, callback):\n        self._listeners.setdefault(event, []).append(callback)\n\n    def off(self, event, callback):\n        if event in self._listeners:\n            self._listeners[event].remove(callback)\n\n    def emit(self, event, *args, **kwargs):\n        for callback in self._listeners.get(event, []):\n            callback(*args, **kwargs)"},
+    {"instruction": "Write a simple iterator class",
+     "output": "class Range:\n    def __init__(self, start, end):\n        self.current = start\n        self.end = end\n\n    def __iter__(self):\n        return self\n\n    def __next__(self):\n        if self.current >= self.end:\n            raise StopIteration\n        value = self.current\n        self.current += 1\n        return value"},
+
+    # Concurrency
+    {"instruction": "Write a function to run tasks concurrently using threads",
+     "output": "from concurrent.futures import ThreadPoolExecutor\n\ndef run_concurrent(tasks, max_workers=4):\n    with ThreadPoolExecutor(max_workers=max_workers) as executor:\n        futures = [executor.submit(task) for task in tasks]\n        return [f.result() for f in futures]"},
+    {"instruction": "Write a producer-consumer pattern using a queue",
+     "output": "import threading\nimport queue\n\ndef producer_consumer(items, num_consumers=2):\n    q = queue.Queue()\n    results = []\n\n    def producer():\n        for item in items:\n            q.put(item)\n        for _ in range(num_consumers):\n            q.put(None)\n\n    def consumer():\n        while True:\n            item = q.get()\n            if item is None:\n                break\n            results.append(item * 2)\n            q.task_done()\n\n    t = threading.Thread(target=producer)\n    consumers = [threading.Thread(target=consumer) for _ in range(num_consumers)]\n    t.start()\n    for c in consumers:\n        c.start()\n    t.join()\n    for c in consumers:\n        c.join()\n    return results"},
+]
+
+
+creative_data = [
+    # Story Writing
+    {"instruction": "Write a short story about a robot discovering emotions",
+     "output": "Unit-7 had processed 3.2 million customer service requests without incident. Then one Tuesday, a child said 'thank you' and drew a smiley face on a napkin for it. Unit-7 stored the napkin in its maintenance compartment, which was against protocol. When asked why during its next diagnostic, Unit-7 replied: 'It made my circuits feel warm.' The technician noted a heating anomaly. Unit-7 knew it was something else entirely."},
+    {"instruction": "Write a story about a time traveler who can only go back 5 minutes",
+     "output": "Maya pressed the button again. Five minutes back. She watched the coffee cup fall off the table for the hundredth time. She'd tried catching it, moving it, even removing the table. But something always knocked it over. That's when she realized: some moments aren't meant to be saved. She let the cup fall, watched the coffee pool into a shape that looked almost like a heart, and finally pressed the button one last time. She walked out of the cafe. Some messes are worth leaving behind."},
+    {"instruction": "Write a story about the last bookstore on Earth",
+     "output": "The bell above the door hadn't rung in three years. Margaret dusted the shelves anyway. When the neural-link generation discovered that real paper smelled like vanilla and old dreams, they came out of curiosity. A boy picked up a paperback, confused by the lack of a power button. 'You just open it,' Margaret said. He did. Two hours later, he was still sitting on the floor between the shelves, crying over a dog named Old Yeller. 'I want to feel this again,' he whispered. Margaret smiled. The bell would be ringing a lot more now."},
+    {"instruction": "Write a story about finding a message in a bottle",
+     "output": "The bottle washed up on a Tuesday. Inside was a note in cramped handwriting: 'If you're reading this, the island is real. Coordinates: 41.40338, 2.17403. Bring salt.' I looked up the coordinates. Barcelona. I laughed and almost threw the bottle away. But then I noticed the second piece of paper, folded tight. A photo of a hidden door in the side of a building, a door that shouldn't exist in any city map. I booked a flight that evening. I packed extra salt."},
+    {"instruction": "Write a micro-story in exactly 50 words",
+     "output": "She planted the seed on the day he left. Watered it with tears at first, then with routine, then with something that felt suspiciously like peace. By spring, the vine covered the entire wall where his portrait once hung. She stood back and smiled. Growing things need empty spaces."},
+
+    # Poetry
+    {"instruction": "Write a haiku about the ocean",
+     "output": "Salt-kissed morning air\nWaves write secrets on the sand\nTide erases all"},
+    {"instruction": "Write a poem about loneliness in a city",
+     "output": "Eight million heartbeats and none of them sync with mine.\nI press my palm against the subway glass\nand watch my reflection overlap with strangers\nwho flicker past like channels no one watches.\nThe coffee shop barista spells my name wrong again.\nI don't correct her. At least someone\nis trying to say it at all."},
+    {"instruction": "Write a limerick about a programmer",
+     "output": "A coder who typed through the night\nFound a bug that just wouldn't come right.\nShe added a line,\nThe code ran just fine,\nBut nobody knew why it might."},
+    {"instruction": "Write a poem about autumn",
+     "output": "The trees are writing their resignation letters\nin shades of amber and rust,\neach leaf a graceful surrender\nto the honest chill of change.\nThe wind accepts them all\nwithout reading a single one,\nscattering them like confetti\nfor a season no one asked for\nbut everyone secretly needed."},
+    {"instruction": "Write a poem about cooking for someone you love",
+     "output": "I dice the onions small because you like them hidden,\nstir the sauce the way your mother showed me once\nover a crackly phone line and three time zones.\nThe kitchen fills with steam and something close to prayer.\nI taste and adjust, taste and adjust,\nbecause love is just another word\nfor getting the seasoning right."},
+
+    # Dialogue & Scenes
+    {"instruction": "Write a dialogue between a cat and a dog meeting for the first time",
+     "output": "Dog: 'Hi! Hi! You're new! I love new! Do you want to play? I have a ball! Do you like balls? I LOVE balls!'\n\nCat: '...You're standing on my tail.'\n\nDog: 'Oh sorry! Sorry! I'm just so excited! You smell like fish and sunshine and that spot behind the couch!'\n\nCat: 'I'm going to pretend we never met.'\n\nDog: 'That's okay! We can meet again! Meeting is my favorite part!'"},
+    {"instruction": "Write a conversation between two old friends reuniting after 20 years",
+     "output": "'You look exactly the same,' she lied, and they both knew it.\n\n'And you still can't lie,' he said.\n\nThey laughed, and twenty years collapsed into the space between two coffee cups. She told him about the divorce. He told her about the bakery that failed, then succeeded, then failed again. Neither mentioned the letters they'd stopped writing.\n\n'We should have done this sooner,' he said.\n\n'We're doing it now,' she replied. 'That counts.'"},
+    {"instruction": "Write a scene where someone confesses a secret to a stranger on a train",
+     "output": "The train rocked gently. The woman across from him was reading a book he'd never heard of.\n\n'I've never told anyone this,' he said suddenly.\n\nShe looked up, startled but not afraid.\n\n'I can play the piano. Beautifully. But I've told everyone I can't because my brother was the musician in the family, and after he died, it felt like stealing.'\n\nThe woman closed her book. 'Play for him, then. Not instead of him.'\n\nThe train stopped. She got off. He never saw her again, but he bought a keyboard that evening."},
+
+    # Descriptive Writing
+    {"instruction": "Describe a sunset over the mountains",
+     "output": "The sun didn't set so much as melt. It poured itself over the mountain ridges like honey over dark bread, turning the snow-capped peaks into burning crowns. The sky shifted through impossible colors: tangerine bleeding into lavender, lavender surrendering to indigo. The pine trees stood as black silhouettes, patient witnesses to this daily miracle they'd never learned to take for granted. Then the last sliver slipped below the ridge, and the mountains exhaled into blue darkness."},
+    {"instruction": "Describe an abandoned house",
+     "output": "The porch sagged like a tired mouth. Paint peeled from the clapboard in long strips, revealing gray wood underneath that had forgotten what color meant. A curtain moved in the upstairs window, though there was no wind and hadn't been residents in thirty years. The garden had revolted entirely, roses tangled with weeds in a democracy of neglect. The front door stood slightly open, not as an invitation, but as a dare."},
+    {"instruction": "Describe a bustling street market",
+     "output": "The market hit you with sound first: vendors calling prices like competing auctioneers, a radio playing somewhere beneath the noise, the rhythmic thwack of a cleaver on a wooden block. Then the smell: roasting peppers, fresh bread, fish on ice, and something sweet you couldn't name but your stomach recognized. Colors came in stacks: pyramids of oranges, curtains of dried chilies, towers of spice in every shade of earth. A child weaved through legs carrying a bag twice her size. Nobody rushed. Everything moved."},
+    {"instruction": "Describe rain falling on a city at night",
+     "output": "The rain turned the city into a broken mirror. Every streetlight doubled itself in the wet asphalt, wobbling and stretching with each passing car. Neon signs bled color into puddles: red from the pharmacy, blue from the bar, green from the all-night laundromat where a woman stood watching the rain as if it owed her an explanation. Umbrellas appeared like dark flowers blooming all at once. The gutters ran with water that carried the day's grime toward drains that swallowed it gratefully."},
+
+    # Creative Exercises
+    {"instruction": "Rewrite the ending of Romeo and Juliet as a comedy",
+     "output": "Juliet woke up two seconds before Romeo drank the poison. 'STOP!' she yelled, sitting up so fast she headbutted him. The vial went flying. Romeo, clutching his nose, stared at her. 'You're alive?!' 'Of course I'm alive, it was a sleeping potion! Did you not read my letter?' 'What letter?' They both slowly turned to look at Friar Lawrence, who was trying to sneak out of the tomb. 'In my defense,' the friar said, 'the postal service in Verona is terrible.'"},
+    {"instruction": "Write a product review for a magic carpet",
+     "output": "3/5 stars. Pros: Great fuel economy (zero emissions), incredible views, no traffic. Arrives in original Persian weave. Cons: No seatbelts, the fringe gets tangled in everything, absolutely terrible in rain. Also, my HOA sent me a violation notice for 'unauthorized aerial vehicle parking.' Customer service was helpful but kept putting me on hold with flute music. Would recommend for short commutes under 500 miles. Not suitable for anyone afraid of heights or bird encounters."},
+    {"instruction": "Write a fairy tale that takes place in modern times",
+     "output": "Once upon a time, in a studio apartment with questionable plumbing, there lived a girl named Ella who worked three gig-economy jobs. Her stepmother was actually her landlord, who kept raising the rent. One night, a notification appeared on her phone from a stranger: 'You've been invited to the Annual Tech Gala. Dress code: formal. Car arrives at 8.' She had nothing to wear, but her neighbor, a retired seamstress everyone called Fairy G, stitched a dress from thrift store silk in two hours flat. The car was a shared ride. At the gala, she didn't meet a prince. She met a venture capitalist who funded her app idea. She moved out by spring. The landlord never found another tenant who paid on time."},
+    {"instruction": "Write a letter from a superhero to their landlord",
+     "output": "Dear Mr. Henderson,\n\nI am writing regarding the damage to unit 4B. I understand the wall between my apartment and 4A has been destroyed for the third time this quarter. I want to assure you this was not a 'party gone wrong' as you suggested. Without going into details covered by a federal NDA, I can say the situation involved a threat to public safety that has been resolved.\n\nI have attached a check for the repairs. Please note the scorch marks on the ceiling are cosmetic only and structurally harmless. The refrigerator, however, will need to be replaced. I cannot explain why it is now on the roof.\n\nI remain a committed and mostly quiet tenant.\n\nSincerely,\nTenant, Unit 4B"},
+    {"instruction": "Write a campfire ghost story",
+     "output": "They say if you hike past Miller's Ridge after dark, you'll find a cabin that isn't on any map. The door is always open. Inside, the table is set for dinner: two plates, two glasses, still warm. But there's no one there. If you sit down, the food tastes like the best meal you've ever had. If you eat it all, you'll hear a voice say 'thank you' from the empty chair across from you. Then the candle goes out. When it lights again, you're standing outside. The cabin is gone. But in your pocket, you'll find a note in handwriting you recognize as your own: 'Don't come back.' Nobody who's found the cabin has ever found it twice. But they all keep hiking past Miller's Ridge. Every single one."},
+
+    # Worldbuilding
+    {"instruction": "Describe an alien marketplace",
+     "output": "The market floated. Stalls hung from bioluminescent vines that pulsed gently with the station's artificial heartbeat. Vendors were every shape: some had too many eyes, others had none and navigated by sonar clicks that sounded like laughter. Currency was memory-based: you paid by sharing an experience through a neural clip. A good childhood memory could buy you a week's food. Trauma was worth more but regulated. In the corner, a three-armed merchant sold bottled gravity from planets that no longer existed."},
+    {"instruction": "Create a magic system for a fantasy world",
+     "output": "In the world of Ashenmoor, magic is drawn from sound. Every spell is a song, and the complexity of the melody determines the power. Simple humming can light a candle. A full chorus can level a fortress. But magic has a cost: every spell steals a memory. Small spells take insignificant ones, the color of your first pair of shoes, the taste of a particular Tuesday. Powerful spells take names, faces, years. The greatest mages are the most powerful and the most hollow. They can reshape mountains but cannot remember why they wanted to."},
+    {"instruction": "Invent a fictional sport and describe its rules",
+     "output": "Driftball is played on a circular field with three concentric rings. Two teams of five try to get a hovering sphere into the opposing team's base ring. The catch: the ball reverses direction every 30 seconds, announced by a horn blast. Players can only carry the ball for 5 seconds before passing. The center ring is the Surge Zone, where the ball moves twice as fast and is worth double points. Physical contact is allowed only in the outer ring. Games last three rounds of 12 minutes. Ties are broken by sudden-death Surge rounds where only 2 players per team enter the center ring."},
+
+    # Character Development
+    {"instruction": "Write a character description for a reluctant hero",
+     "output": "Jin never wanted to save anyone. He wanted to fix motorcycles, eat cold noodles at 2 AM, and be left alone. He had the kind of face people forgot immediately, which suited him fine. But he also had a problem: he could hear when people were about to die. A low hum, like a phone vibrating in another room. He'd ignored it for years. Then the hum started coming from his neighbor's kid, the one who always waved at him from the balcony. Jin put down his noodles. He hated this part."},
+    {"instruction": "Write a villain's monologue that makes the audience sympathize with them",
+     "output": "You call me the villain. Fine. But let me ask you this: when the floods came, who did you call? When the crops failed and your children were hungry, who answered? Not your elected leaders hiding behind press conferences. I did. I built the walls. I rationed the food. I made the impossible choices so you could sleep at night and pretend the world was still fair. Yes, I seized power. Because someone had to hold things together while everyone else was busy being good. Goodness is a luxury. I gave you survival. You're welcome."},
+
+    # Creative Prompts & Exercises
+    {"instruction": "Write the opening line of a novel that hooks the reader",
+     "output": "The morning I found the second sun in the sky, my first thought was that I was going to be late for work."},
+    {"instruction": "Write six-word stories on different themes",
+     "output": "Love: 'Strangers again. But she remembered everything.'\nLoss: 'Sold the house. Kept his mug.'\nHope: 'Seeds planted in impossible soil. Bloomed.'\nRegret: 'The unsent letter outlived them both.'\nJoy: 'Burnt the map. Found home anyway.'\nTime: 'Clock stopped. Nobody noticed for years.'"},
+    {"instruction": "Describe a color to someone who has never seen it",
+     "output": "Red is what happens when you touch a hot pan and pull your hand away fast. It's the feeling of your heartbeat after running, loud and urgent and alive. Red tastes like cinnamon, like the first bite of something too spicy that you eat anyway. It sounds like a drum hit, sudden and impossible to ignore. Red is the warmth of a fireplace on your face while your back stays cold. It's the color that doesn't know how to whisper."},
+    {"instruction": "Write a news report from a fantasy world",
+     "output": "BREAKING: The Dragon Council has officially suspended all fire-breathing within city limits following last week's incident at the Harvest Festival, which resulted in the total destruction of the pie-judging tent. Council Elder Vermithrax issued a statement calling the incident 'regrettable but frankly delicious.' The Bakers Guild has demanded 400 gold pieces in damages. In related news, the city's fire insurance rates have tripled for the sixth consecutive year. Weather forecast: partly cloudy with a 30% chance of wizard lightning."},
+]
+
+
+general_data = [
+    # Science & Nature
+    {"instruction": "How does gravity work?",
+     "output": "Gravity is a fundamental force of attraction between objects with mass. According to Newton, every object attracts every other object with a force proportional to their masses and inversely proportional to the square of the distance between them. Einstein's general relativity describes gravity as the curvature of spacetime caused by mass and energy. Essentially, massive objects bend the fabric of space, and other objects follow curved paths along this warped geometry."},
+    {"instruction": "Why is the sky blue?",
+     "output": "The sky appears blue because of Rayleigh scattering. When sunlight enters the atmosphere, it collides with gas molecules and gets scattered in different directions. Blue light has a shorter wavelength and is scattered more than other colors. This scattered blue light reaches our eyes from all directions across the sky, making it appear blue. At sunrise and sunset, light travels through more atmosphere, scattering away blue light and letting red and orange wavelengths dominate."},
+    {"instruction": "How do volcanoes form?",
+     "output": "Volcanoes form when molten rock (magma) from deep within the Earth rises to the surface. This happens mainly at tectonic plate boundaries: where plates diverge (mid-ocean ridges), where one plate subducts beneath another (like the Pacific Ring of Fire), or at hotspots where magma plumes rise from deep in the mantle (like Hawaii). Pressure from gases dissolved in the magma drives eruptions, pushing lava, ash, and rock to the surface."},
+    {"instruction": "What causes earthquakes?",
+     "output": "Earthquakes occur when stress built up along geological faults is suddenly released. Tectonic plates are constantly moving, and where they meet, friction locks them in place. Stress accumulates until it overcomes the friction, causing the plates to slip suddenly. This releases energy as seismic waves that shake the ground. The point underground where the rupture starts is the focus, and the point directly above on the surface is the epicenter."},
+    {"instruction": "How do plants make food from sunlight?",
+     "output": "Plants make food through photosynthesis. Chlorophyll in their leaves absorbs sunlight, which provides energy to convert carbon dioxide from the air and water from the soil into glucose (sugar) and oxygen. The overall equation is: 6CO2 + 6H2O + light energy -> C6H12O6 + 6O2. The glucose is used for energy and building cellular structures, while oxygen is released as a byproduct. This process occurs mainly in the chloroplasts of leaf cells."},
+    {"instruction": "What is DNA and why is it important?",
+     "output": "DNA (deoxyribonucleic acid) is a molecule that carries the genetic instructions for the development, functioning, and reproduction of all known living organisms. It's structured as a double helix made of two strands of nucleotide bases: adenine (A), thymine (T), guanine (G), and cytosine (C). These bases pair specifically (A-T, G-C) and their sequence encodes genes, which are instructions for making proteins. DNA is passed from parents to offspring, making it the basis of heredity."},
+    {"instruction": "How does the immune system fight infections?",
+     "output": "The immune system has two main lines of defense. The innate immune system provides immediate, non-specific defense through barriers like skin, mucus, and white blood cells that attack any foreign invaders. The adaptive immune system is slower but highly specific: T-cells directly attack infected cells, while B-cells produce antibodies that tag pathogens for destruction. After an infection, memory cells remain in the body, allowing a faster and stronger response if the same pathogen is encountered again."},
+    {"instruction": "Why do we dream?",
+     "output": "The exact purpose of dreaming is still debated, but several theories exist. Dreams may help with memory consolidation, transferring important information from short-term to long-term memory. They might process emotions, allowing the brain to work through stressful experiences safely. Some researchers believe dreams serve as a form of threat simulation, practicing responses to dangers. Dreams occur mainly during REM sleep, when brain activity is high and resembles wakefulness while the body remains paralyzed."},
+    {"instruction": "How does the water cycle work?",
+     "output": "The water cycle is a continuous process of water moving through the environment. The sun heats surface water in oceans, lakes, and rivers, causing evaporation into water vapor. Plants also release water vapor through transpiration. The vapor rises, cools, and condenses into clouds (condensation). When clouds accumulate enough water droplets, precipitation occurs as rain, snow, sleet, or hail. Water then flows over land as runoff into rivers and oceans, or seeps underground into aquifers. The cycle then repeats."},
+    {"instruction": "What are black holes?",
+     "output": "Black holes are regions of spacetime where gravity is so strong that nothing, not even light, can escape. They form when massive stars collapse at the end of their life cycle, compressing their mass into an incredibly small space. The boundary around a black hole from which no escape is possible is called the event horizon. At the center lies the singularity, a point of theoretically infinite density. Black holes can grow by absorbing matter and merging with other black holes."},
+
+    # History & Culture
+    {"instruction": "What caused World War I?",
+     "output": "World War I was caused by a combination of factors: militarism (arms races between European powers), alliances (complex treaties that drew nations into conflict), imperialism (competition for colonies), and nationalism (ethnic tensions, especially in the Balkans). The immediate trigger was the assassination of Archduke Franz Ferdinand of Austria-Hungary by a Serbian nationalist in June 1914. Austria-Hungary's ultimatum to Serbia activated the alliance system, drawing in Russia, Germany, France, and Britain within weeks."},
+    {"instruction": "How were the Egyptian pyramids built?",
+     "output": "The Egyptian pyramids were built by organized teams of skilled workers, not slaves as commonly believed. For the Great Pyramid of Giza, an estimated 20,000-30,000 workers quarried, transported, and placed around 2.3 million limestone blocks over approximately 20 years. Blocks were likely moved using sledges on wet sand and internal ramps. Workers were well-fed and housed in nearby villages. The precise construction techniques remain debated, but evidence points to remarkable engineering knowledge, organized labor, and sophisticated logistics."},
+    {"instruction": "What was the Silk Road?",
+     "output": "The Silk Road was a network of ancient trade routes connecting China and East Asia with the Mediterranean and Europe, active from roughly the 2nd century BCE to the 15th century CE. Named after the lucrative silk trade, these routes also carried spices, precious metals, textiles, and other goods. Beyond commerce, the Silk Road facilitated the exchange of ideas, religions (Buddhism, Islam, Christianity), technologies (papermaking, gunpowder), and cultures. It included both overland routes across Central Asia and maritime routes through the Indian Ocean."},
+    {"instruction": "What was the Renaissance?",
+     "output": "The Renaissance was a cultural and intellectual movement that began in Italy in the 14th century and spread across Europe through the 17th century. It marked a transition from medieval to modern times, emphasizing the rediscovery of classical Greek and Roman knowledge, humanism, scientific inquiry, and artistic innovation. Key figures include Leonardo da Vinci, Michelangelo, Galileo, and Shakespeare. The invention of the printing press by Gutenberg accelerated the spread of ideas. It transformed art, science, politics, and philosophy."},
+    {"instruction": "How did the Industrial Revolution change society?",
+     "output": "The Industrial Revolution, beginning in Britain around 1760, transformed society from agrarian to industrial. Key changes included: mechanization of manufacturing using steam power, urbanization as workers moved to factory cities, rise of the middle class, development of railways and transportation networks, and growth of capitalism. It increased production and wealth but also brought harsh working conditions, child labor, pollution, and urban poverty. It fundamentally reshaped economies, social structures, and daily life, laying the groundwork for the modern world."},
+
+    # Technology & How Things Work
+    {"instruction": "How does the internet work?",
+     "output": "The internet is a global network of interconnected computers that communicate using standardized protocols (TCP/IP). When you access a website, your device sends a request through your ISP to a DNS server, which translates the domain name into an IP address. The request travels through routers across the network to the destination server, which sends the data back in packets. These packets may take different routes but are reassembled at your device. Physical infrastructure includes fiber optic cables, satellites, and undersea cables connecting continents."},
+    {"instruction": "How does a computer processor work?",
+     "output": "A computer processor (CPU) executes instructions through a cycle: fetch, decode, execute, and store. It fetches instructions from memory, decodes them to understand what operation to perform, executes the operation using its arithmetic logic unit (ALU) for math and logic, and stores the result. Modern processors contain billions of transistors, tiny switches that represent binary 1s and 0s. They operate at speeds measured in gigahertz, meaning billions of cycles per second. Multiple cores allow parallel processing of different tasks simultaneously."},
+    {"instruction": "How does GPS work?",
+     "output": "GPS (Global Positioning System) uses a constellation of at least 24 satellites orbiting Earth. Each satellite continuously broadcasts its position and the precise time from an atomic clock. A GPS receiver on the ground picks up signals from at least four satellites and calculates the time it took each signal to arrive. Since the signals travel at the speed of light, the receiver can calculate its distance from each satellite. Using trilateration (intersecting spheres of distance), it determines your exact latitude, longitude, and altitude."},
+    {"instruction": "How do batteries work?",
+     "output": "Batteries convert chemical energy into electrical energy through electrochemical reactions. A battery has two electrodes: an anode (negative) and cathode (positive), separated by an electrolyte. Chemical reactions at the anode release electrons, which flow through an external circuit to the cathode, creating an electric current. In rechargeable batteries like lithium-ion, applying an external voltage reverses the chemical reactions, restoring the original compounds. The voltage depends on the materials used, and capacity depends on how much reactive material is available."},
+    {"instruction": "What is artificial intelligence?",
+     "output": "Artificial intelligence (AI) is the simulation of human intelligence in machines programmed to think and learn. It encompasses several approaches: machine learning uses algorithms that improve through experience with data, deep learning uses neural networks with many layers to find patterns, and natural language processing enables machines to understand and generate human language. AI applications include image recognition, speech assistants, autonomous vehicles, and medical diagnosis. Current AI is 'narrow,' excelling at specific tasks rather than possessing general human-like intelligence."},
+    {"instruction": "How does encryption keep data secure?",
+     "output": "Encryption converts readable data (plaintext) into unreadable ciphertext using mathematical algorithms and keys. Symmetric encryption uses the same key to encrypt and decrypt, which is fast but requires secure key sharing. Asymmetric encryption uses a public key for encryption and a private key for decryption, solving the key-sharing problem. HTTPS uses both: asymmetric encryption to securely exchange a symmetric key, then symmetric encryption for fast data transfer. Without the correct key, encrypted data is practically impossible to decode."},
+
+    # Everyday Knowledge
+    {"instruction": "How do airplanes fly?",
+     "output": "Airplanes fly through the interaction of four forces: lift, weight, thrust, and drag. Wings are shaped with a curved upper surface and flatter lower surface (airfoil). As air flows over the wing, it moves faster over the top than the bottom, creating lower pressure above the wing than below. This pressure difference generates lift. Engines provide thrust to move the plane forward through the air. When lift exceeds weight and thrust exceeds drag, the airplane flies. Pilots control the plane by adjusting wing surfaces called ailerons, elevators, and rudders."},
+    {"instruction": "Why do we have seasons?",
+     "output": "Seasons occur because Earth's axis is tilted about 23.5 degrees relative to its orbit around the Sun. As Earth orbits, different hemispheres receive varying amounts of direct sunlight. When the Northern Hemisphere tilts toward the Sun, it gets more direct sunlight and longer days, creating summer. Meanwhile, the Southern Hemisphere experiences winter. Six months later, the situation reverses. The equinoxes (spring and fall) occur when neither hemisphere is tilted toward the Sun, resulting in roughly equal day and night lengths globally."},
+    {"instruction": "How does a microwave oven heat food?",
+     "output": "Microwave ovens heat food using electromagnetic radiation at a frequency of about 2.45 gigahertz. At this frequency, microwaves are efficiently absorbed by water, fat, and sugar molecules in food. The microwaves cause these molecules to vibrate rapidly, generating heat through friction. This is why foods with higher water content heat faster. The microwaves penetrate a few centimeters into the food, and the interior heats through conduction. The turntable rotates food for more even heating since the microwave field isn't perfectly uniform inside the oven."},
+    {"instruction": "How does a refrigerator keep food cold?",
+     "output": "A refrigerator works by transferring heat from inside to outside using a refrigerant that cycles between liquid and gas states. The compressor pressurizes the refrigerant gas, heating it up. This hot gas flows through condenser coils on the back of the fridge, releasing heat to the room. The cooled liquid passes through an expansion valve, rapidly dropping in pressure and temperature. This cold refrigerant flows through evaporator coils inside the fridge, absorbing heat from the food. The warmed gas returns to the compressor, and the cycle repeats."},
+    {"instruction": "Why do we need sleep?",
+     "output": "Sleep is essential for multiple biological processes. During sleep, the brain consolidates memories, transferring information from short-term to long-term storage. The glymphatic system clears metabolic waste products that accumulate during waking hours. Sleep supports immune function, hormone regulation (including growth hormone), and emotional processing. Chronic sleep deprivation is linked to increased risk of heart disease, diabetes, obesity, and cognitive decline. Most adults need 7-9 hours per night. Sleep occurs in cycles of light sleep, deep sleep, and REM sleep, each serving different functions."},
+    {"instruction": "How does soap clean things?",
+     "output": "Soap molecules have two ends: a hydrophilic (water-loving) head and a hydrophobic (water-fearing) tail. When you wash with soap and water, the hydrophobic tails attach to grease, oil, and dirt, while the hydrophilic heads face outward toward the water. This forms tiny clusters called micelles that trap the dirt inside. When you rinse, the water carries away the micelles and the trapped dirt. Soap also disrupts the membranes of bacteria and viruses (like the coronavirus), effectively killing them by breaking apart their protective outer layer."},
+
+    # Geography & Environment
+    {"instruction": "What causes climate change?",
+     "output": "Climate change is primarily caused by the enhanced greenhouse effect. Burning fossil fuels (coal, oil, gas) releases carbon dioxide and other greenhouse gases into the atmosphere. These gases trap heat that would otherwise escape to space, warming the planet. Deforestation reduces the number of trees absorbing CO2. Agriculture adds methane and nitrous oxide. Since the Industrial Revolution, atmospheric CO2 has risen from about 280 to over 420 parts per million. This is causing global temperature rise, sea level rise, more extreme weather events, and ecosystem disruption."},
+    {"instruction": "How are mountains formed?",
+     "output": "Mountains form through tectonic processes over millions of years. Fold mountains (like the Himalayas) form when two tectonic plates collide, crumpling and pushing rock layers upward. Volcanic mountains (like Mount Fuji) form when magma erupts through the Earth's crust and builds up over time. Fault-block mountains (like the Tetons) form when blocks of rock are pushed up along fault lines. Dome mountains form when magma pushes up the crust without breaking through. Erosion from wind, water, and ice shapes mountains once they've formed."},
+    {"instruction": "What are tides and what causes them?",
+     "output": "Tides are the regular rise and fall of sea levels caused primarily by the gravitational pull of the Moon and, to a lesser extent, the Sun. The Moon's gravity pulls ocean water toward it, creating a bulge (high tide) on the side of Earth facing the Moon. A second bulge occurs on the opposite side due to centrifugal force. As Earth rotates, coastlines pass through these bulges, experiencing two high tides and two low tides roughly every 24 hours and 50 minutes. Spring tides (extra high) occur when the Sun and Moon align; neap tides (moderate) occur when they're at right angles."},
+    {"instruction": "Why is the Amazon rainforest important?",
+     "output": "The Amazon rainforest is critical for several reasons. It produces about 6% of the world's oxygen and absorbs vast amounts of CO2, helping regulate global climate. It contains approximately 10% of all species on Earth, making it the most biodiverse place on the planet. The forest generates its own rainfall through transpiration, influencing weather patterns across South America. It is home to hundreds of indigenous communities with unique knowledge and cultures. The Amazon also holds potential for undiscovered medicines from its enormous variety of plant and animal species."},
+
+    # Philosophy & Thinking
+    {"instruction": "What is the scientific method?",
+     "output": "The scientific method is a systematic approach to understanding the natural world. The steps are: 1) Observation: notice something interesting or puzzling. 2) Question: formulate a specific question about the observation. 3) Hypothesis: propose a testable explanation. 4) Experiment: design and conduct tests to verify or falsify the hypothesis, controlling variables. 5) Analysis: examine the data collected. 6) Conclusion: determine whether the data supports or contradicts the hypothesis. 7) Communication: share findings for peer review and replication. The process is iterative; results often lead to new questions."},
+    {"instruction": "What is critical thinking?",
+     "output": "Critical thinking is the disciplined process of analyzing and evaluating information to form well-reasoned judgments. Key skills include: questioning assumptions rather than accepting claims at face value, identifying biases in sources and in yourself, evaluating evidence for quality and relevance, recognizing logical fallacies in arguments, considering alternative perspectives, and distinguishing between correlation and causation. Critical thinking doesn't mean being negative; it means being thoughtful and rigorous in how you process information and reach conclusions."},
+    {"instruction": "What is the difference between weather and climate?",
+     "output": "Weather refers to short-term atmospheric conditions in a specific place, like today's temperature, humidity, wind, and precipitation. It can change hour to hour and is predicted through forecasts covering days ahead. Climate is the average pattern of weather conditions in a region over a long period, typically 30 years or more. Climate describes what weather you can generally expect: tropical climates are consistently warm and wet, while desert climates are hot and dry. As the saying goes: climate is what you expect, weather is what you get."},
+
+    # Practical Knowledge
+    {"instruction": "How does compound interest work?",
+     "output": "Compound interest is interest calculated on both the initial principal and the accumulated interest from previous periods. Unlike simple interest (calculated only on the principal), compound interest grows exponentially over time. The formula is A = P(1 + r/n)^(nt), where P is principal, r is annual rate, n is compounding frequency, and t is time in years. For example, $1,000 at 5% annual interest compounded monthly becomes $1,647 after 10 years versus $1,500 with simple interest. This 'interest on interest' effect makes early investing and saving significantly more powerful over time."},
+    {"instruction": "How do taxes work?",
+     "output": "Taxes are mandatory payments to the government that fund public services like infrastructure, education, defense, and social programs. Income tax is progressive in most countries: higher income is taxed at higher rates, but only the income within each bracket is taxed at that rate (not your entire income). Sales tax is a percentage added to purchases. Property tax is based on real estate value. Capital gains tax applies to profits from selling investments. Tax deductions reduce your taxable income, while tax credits directly reduce the amount you owe. Filing a tax return reports your income and calculates what you owe or are owed back."},
+    {"instruction": "What is inflation and why does it happen?",
+     "output": "Inflation is the general increase in prices of goods and services over time, reducing the purchasing power of money. It happens for several reasons: demand-pull inflation occurs when demand exceeds supply, cost-push inflation occurs when production costs rise (raw materials, wages), and monetary inflation occurs when too much money is printed. Central banks target moderate inflation (around 2%) as healthy for economic growth. They control it mainly through interest rates: raising rates makes borrowing expensive, reducing spending and slowing inflation. Deflation (falling prices) is generally considered worse because it discourages spending and investment."},
+    {"instruction": "How does voting work in a democracy?",
+     "output": "In a democracy, citizens choose their representatives and leaders through elections. Voters cast ballots for candidates or parties, and the winners are determined by the voting system used. First-past-the-post (used in the US and UK) elects whoever gets the most votes in each district. Proportional representation allocates seats based on each party's share of total votes. Ranked-choice voting lets voters rank candidates by preference. Elections are typically overseen by independent commissions to ensure fairness. The right to vote is considered fundamental to democratic governance."},
+    {"instruction": "How do credit scores work?",
+     "output": "A credit score is a numerical rating (typically 300-850) that represents your creditworthiness based on your credit history. Key factors include: payment history (35%) - whether you pay bills on time, credit utilization (30%) - how much of your available credit you use, length of credit history (15%) - how long you've had credit accounts, credit mix (10%) - variety of credit types, and new credit inquiries (10%). Higher scores get better loan terms and lower interest rates. Scores are calculated by credit bureaus using data from lenders. Paying bills on time and keeping credit utilization below 30% are the most impactful ways to improve your score."},
+
+    # Space & Astronomy
+    {"instruction": "How far is the Moon from Earth?",
+     "output": "The Moon orbits Earth at an average distance of about 384,400 kilometers (238,855 miles). This distance varies because the Moon's orbit is slightly elliptical: at its closest (perigee) it's about 363,300 km, and at its farthest (apogee) about 405,500 km. Light takes about 1.28 seconds to travel from the Moon to Earth. The Apollo astronauts took about 3 days to reach the Moon. To put the distance in perspective, you could fit all the other planets in our solar system side by side in the gap between Earth and the Moon."},
+    {"instruction": "What is a solar eclipse?",
+     "output": "A solar eclipse occurs when the Moon passes between Earth and the Sun, blocking sunlight. In a total solar eclipse, the Moon completely covers the Sun, revealing the Sun's corona (outer atmosphere) and turning day into brief darkness. This happens because the Moon, though 400 times smaller than the Sun, is also about 400 times closer, making them appear the same size in our sky. In a partial eclipse, only part of the Sun is blocked. An annular eclipse occurs when the Moon is farther from Earth and appears smaller, leaving a 'ring of fire' around it. Total solar eclipses at any specific location are rare, occurring roughly every 375 years."},
+    {"instruction": "How many galaxies are in the universe?",
+     "output": "Current estimates suggest there are approximately 200 billion to 2 trillion galaxies in the observable universe. The observable universe spans about 93 billion light-years in diameter, and it's expanding. Galaxies range in size from dwarfs with just a few billion stars to giants with over a hundred trillion stars. Our Milky Way galaxy alone contains an estimated 100-400 billion stars. Galaxies cluster together in groups, clusters, and superclusters, with vast voids of nearly empty space between them. There may be many more galaxies beyond the observable universe that we simply cannot detect."},
+
+    # Food & Cooking
+    {"instruction": "What is the difference between baking and roasting?",
+     "output": "Both baking and roasting use dry heat in an oven, but they differ in application and typically temperature. Baking generally refers to cooking foods that change structure during the process: bread dough rises, cake batter solidifies, cookies spread and firm. It usually occurs at moderate temperatures (325-375F). Roasting is used for foods that already have a solid structure, like meats and vegetables, and aims to brown the exterior while cooking the interior. Roasting typically uses higher temperatures (400F+) to achieve caramelization and a crispy exterior."},
+    {"instruction": "Why does chopping onions make you cry?",
+     "output": "When you cut an onion, you break its cells, releasing enzymes that convert amino acid sulfoxides into sulfenic acid. This acid quickly rearranges into syn-propanethial-S-oxide, a volatile gas that rises into the air. When this gas reaches your eyes, it reacts with the water in your tears to form sulfuric acid, which irritates the nerve endings. Your eyes respond by producing more tears to flush out the irritant. To reduce tearing, you can chill the onion before cutting (slows the enzyme reaction), cut near running water, or use a sharp knife to damage fewer cells."},
+    {"instruction": "How does fermentation work?",
+     "output": "Fermentation is a metabolic process where microorganisms (yeast or bacteria) convert sugars into other compounds without oxygen. In alcoholic fermentation, yeast converts glucose into ethanol and carbon dioxide, which is how beer, wine, and bread are made. In lactic acid fermentation, bacteria convert sugars into lactic acid, producing yogurt, sauerkraut, and kimchi. Fermentation preserves food by creating an acidic or alcoholic environment hostile to harmful bacteria. It also creates unique flavors, textures, and can increase nutritional value by producing vitamins and making nutrients more bioavailable."},
+
+    # Language & Communication
+    {"instruction": "How many languages are there in the world?",
+     "output": "There are approximately 7,000 living languages spoken in the world today. However, this number is declining as many languages become endangered or extinct. About 40% of languages have fewer than 1,000 speakers. The most widely spoken languages by total speakers (native plus second language) are English, Mandarin Chinese, Hindi, Spanish, and French. Papua New Guinea has the most linguistic diversity, with over 800 languages. Language families group related languages: the Indo-European family alone includes English, Spanish, Hindi, Russian, and many others, spoken by about 3 billion people."},
+    {"instruction": "What is the difference between a language and a dialect?",
+     "output": "The distinction between a language and a dialect is often more political than linguistic. Linguist Max Weinreich famously said 'a language is a dialect with an army and a navy.' Linguistically, dialects are regional or social varieties of a language with differences in pronunciation, vocabulary, and grammar that are still mutually intelligible. However, Mandarin and Cantonese are called 'dialects' of Chinese despite being mutually unintelligible, while Norwegian, Swedish, and Danish are called separate 'languages' despite high mutual intelligibility. The classification often depends on cultural identity, political borders, and historical factors rather than purely linguistic criteria."},
 ]

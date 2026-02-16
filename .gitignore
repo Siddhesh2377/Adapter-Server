@@ -1,2 +1,16 @@
 .env
-.venv
+.venv/
+__pycache__/
+*.pyc
+*.pyo
+*.so
+*.egg-info/
+build/
+dist/
+adapters/
+*.gguf
+.idea/
+.vscode/
+*.swp
+*.swo
+*~
