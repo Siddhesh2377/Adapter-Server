@@ -3,7 +3,6 @@
 __pycache__/
 *.pyc
 *.pyo
-*.so
 *.egg-info/
 build/
 dist/
@@ -14,3 +13,6 @@ adapters/
 *.swp
 *.swo
 *~
+
+# Vendored binaries (platform-specific, not committed)
+include/llama/bin/

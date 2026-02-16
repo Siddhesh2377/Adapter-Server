@@ -11,12 +11,12 @@ Train LoRA adapters on any HuggingFace model, export to GGUF, and push to device
 5. Quantizes the base model (Q2_K through Q8_0)
 6. Uploads the adapter to Supabase, base model to HuggingFace
 7. Android app picks it up via OTA
+8. Update existing adapters with new versions — old version auto-deprecated, devices get the update
 
 ## Prerequisites
 
 - **Python 3.10+**
-- **llama.cpp** repo cloned somewhere (for GGUF conversion scripts)
-- **Supabase** project with `base_models`, `adapters`, `adapter_deployments`, `update_logs` tables
+- **Supabase** project (tables and RLS policies are created automatically via migrations)
 - **GPU recommended** (CUDA) but CPU works for small models
 
 ## Setup
@@ -27,7 +27,7 @@ cd Adapter
 ./setup.sh
 ```
 
-The setup script handles everything: venv, dependencies, `.env` file, and database migrations.
+The setup script handles everything: venv, dependencies, `.env` file, database migrations, and RLS policies.
 
 Or do it manually:
 
@@ -36,7 +36,7 @@ python -m venv .venv
 source .venv/bin/activate
 pip install -r requirements.txt
 cp example.env .env       # then edit with your credentials
-alembic upgrade head      # run database migrations
+alembic upgrade head      # run database migrations + RLS policies
 ```
 
 ### Configure `.env`
@@ -46,19 +46,22 @@ SUPABASE_URL=https://your-project.supabase.co
 SUPABASE_DB_URL=postgresql://postgres:password@db.your-project.supabase.co:5432/postgres
 SUPABASE_SERVICE_KEY=your-service-role-key
 
-LLAMA_CPP_DIR=/path/to/llama.cpp
-
 # Optional: auto-upload base model GGUF to HuggingFace
 HF_TOKEN=hf_xxxxxxxxxxxx
 HF_REPO_ID=your-username/your-repo
 ```
 
-### Build llama-quantize (for quantization)
+### Build llama-quantize (first time only)
+
+The GGUF conversion scripts are included in `include/llama/`. The quantize binary needs to be built once:
 
 ```bash
-cd /path/to/llama.cpp
+git clone https://github.com/ggml-org/llama.cpp /tmp/llama.cpp
+cd /tmp/llama.cpp
 cmake -B build
 cmake --build build --target llama-quantize
+cp build/bin/llama-quantize /path/to/Adapter/include/llama/bin/
+cp build/bin/lib*.so* /path/to/Adapter/include/llama/bin/
 ```
 
 ## Run
@@ -72,9 +75,8 @@ Opens at **http://localhost:7860**
 
 Options:
 ```bash
-python src/gradio_trainer.py --port 8080        # custom port
-python src/gradio_trainer.py --share             # public Gradio link
-python src/gradio_trainer.py --llama-cpp-dir /x  # override llama.cpp path
+python src/gradio_trainer.py --port 8080   # custom port
+python src/gradio_trainer.py --share        # public Gradio link
 ```
 
 ## How to Use
@@ -116,9 +118,21 @@ Training streams live progress (loss, epoch, speed). When done:
 - Base model GGUF is uploaded to HuggingFace (if configured)
 - Download link is auto-updated in the database
 
-### Step 3: Manage
+### Step 3: Update an Existing Adapter
 
-Go to **Manage Adapters** to view, publish, or delete adapters.
+Go to **Manage Adapters** > **Update Adapter** tab.
+
+1. **Select adapter** from the dropdown
+2. Click **Load Settings** -- pre-fills name, domain, base model, and auto-bumps the version
+3. **Choose dataset** and adjust training params if needed
+4. **Auto-deprecate** is on by default -- old version gets deprecated and its deployment deactivated after successful training
+5. Click **Retrain & Update**
+
+The new version is deployed automatically. Android devices detect the update on next refresh.
+
+### Step 4: Manage
+
+Go to **Manage Adapters** > **Status / Delete** to change adapter status or delete adapters.
 
 Use **Edit / Delete** sub-tab in Base Models to update model info.
 
@@ -135,31 +149,51 @@ JSON array of instruction/output pairs:
 
 Built-in datasets: **Medical** (~50), **Coding** (~60), **Creative** (~30), **General** (~40)
 
+## Database & Security
+
+Tables are created and migrated automatically via Alembic (`alembic upgrade head`):
+
+- `base_models` -- registered HuggingFace models
+- `adapters` -- trained LoRA adapters with version tracking
+- `adapter_deployments` -- rollout configuration per adapter
+- `update_logs` -- device-level download/install telemetry
+
+**Row Level Security (RLS)** is applied automatically via migration:
+- Android apps can read active models and published adapters (read-only)
+- Only the service role (backend) can create, update, or delete records
+- Devices can insert their own update logs
+
 ## Project Structure
 
 ```
 Adapter/
-├── setup.sh                    # Setup script
-├── requirements.txt            # Python deps
-├── example.env                 # Env template
-├── alembic.ini                 # Migration config
-├── alembic/versions/           # DB migrations
+├── setup.sh                       # Setup script
+├── requirements.txt               # Python deps
+├── example.env                    # Env template
+├── alembic.ini                    # Migration config
+├── alembic/versions/              # DB migrations + RLS policies
+├── include/llama/                 # Vendored llama.cpp tools
+│   ├── convert_hf_to_gguf.py     # HF -> GGUF conversion
+│   ├── convert_lora_to_gguf.py   # LoRA -> GGUF conversion
+│   ├── gguf-py/                   # GGUF Python package
+│   └── bin/                       # llama-quantize + shared libs
 ├── src/
-│   ├── gradio_trainer.py       # Web UI (entry point)
-│   ├── supabase_manager.py     # Supabase client
-│   ├── default_datasets.py     # Built-in datasets
-│   ├── models/models.py        # DB models (SQLAlchemy)
-│   ├── training/gguf_trainer.py # Training + GGUF conversion
-│   └── storage/                # Upload plugins (HuggingFace, extensible)
-└── datasets/                   # Extra dataset files
+│   ├── gradio_trainer.py          # Web UI (entry point)
+│   ├── supabase_manager.py        # Supabase client
+│   ├── default_datasets.py        # Built-in datasets
+│   ├── models/models.py           # DB models (SQLAlchemy)
+│   ├── training/gguf_trainer.py   # Training + GGUF conversion
+│   └── storage/                   # Upload plugins (HuggingFace, extensible)
+└── datasets/                      # Extra dataset files
 ```
 
 ## Troubleshooting
 
 | Problem | Fix |
 |---------|-----|
-| `LLAMA_CPP_DIR not set` | Set it in `.env` or pass `--llama-cpp-dir` |
 | Out of memory during training | Use a smaller model or reduce batch size |
 | Upload fails | Check Supabase credentials and that `adapters` storage bucket exists |
-| `llama-quantize not found` | Build llama.cpp: `cmake -B build && cmake --build build --target llama-quantize` |
-| GGUF conversion fails | Make sure `convert_lora_to_gguf.py` and `convert_hf_to_gguf.py` exist in your llama.cpp dir |
+| `llama-quantize not found` | Build it from llama.cpp source and copy to `include/llama/bin/` |
+| GGUF conversion fails | Check that `include/llama/` has `convert_lora_to_gguf.py` and `convert_hf_to_gguf.py` |
+| Shared lib errors when quantizing | Copy all `lib*.so*` files from llama.cpp build into `include/llama/bin/` |
+| Migration fails | Check `SUPABASE_DB_URL` in `.env` and that the database is accessible |

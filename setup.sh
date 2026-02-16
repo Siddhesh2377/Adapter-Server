@@ -65,9 +65,8 @@ if [ ! -f ".env" ]; then
         echo "    SUPABASE_URL        - Your Supabase project URL"
         echo "    SUPABASE_DB_URL     - PostgreSQL connection string"
         echo "    SUPABASE_SERVICE_KEY - Service role key"
-        echo "    LLAMA_CPP_DIR       - Path to llama.cpp repo"
-        echo "    HF_TOKEN            - HuggingFace token (optional)"
-        echo "    HF_REPO_ID          - HuggingFace repo for model uploads (optional)"
+        echo "    HF_TOKEN            - HuggingFace token (optional, for auto-upload)"
+        echo "    HF_REPO_ID          - HuggingFace repo (optional, for auto-upload)"
         echo ""
     else
         error "example.env not found. Create .env manually."
@@ -77,25 +76,32 @@ else
     info ".env already exists."
 fi
 
-# ── Validate llama.cpp ──
-source .env 2>/dev/null || true
-if [ -z "$LLAMA_CPP_DIR" ]; then
-    warn "LLAMA_CPP_DIR not set in .env -- needed for GGUF conversion."
-elif [ ! -f "$LLAMA_CPP_DIR/convert_lora_to_gguf.py" ]; then
-    warn "convert_lora_to_gguf.py not found in $LLAMA_CPP_DIR"
+# ── Verify vendored llama.cpp tools ──
+INCLUDE_DIR="$PROJECT_DIR/include/llama"
+
+if [ -f "$INCLUDE_DIR/convert_lora_to_gguf.py" ] && [ -f "$INCLUDE_DIR/convert_hf_to_gguf.py" ]; then
+    info "Conversion scripts found in include/llama/"
 else
-    info "llama.cpp found at $LLAMA_CPP_DIR"
+    error "Missing conversion scripts in include/llama/"
+    error "Expected: convert_lora_to_gguf.py, convert_hf_to_gguf.py, gguf-py/"
+    exit 1
 fi
 
-# ── Check for llama-quantize binary ──
-if [ -n "$LLAMA_CPP_DIR" ] && [ -f "$LLAMA_CPP_DIR/build/bin/llama-quantize" ]; then
+if [ -f "$INCLUDE_DIR/bin/llama-quantize" ]; then
     info "llama-quantize binary found."
-elif [ -n "$LLAMA_CPP_DIR" ]; then
-    warn "llama-quantize not found. Build llama.cpp to enable quantization:"
-    echo "    cd $LLAMA_CPP_DIR && cmake -B build && cmake --build build --target llama-quantize"
+else
+    warn "llama-quantize binary not found in include/llama/bin/"
+    echo ""
+    echo "  To build it from llama.cpp source:"
+    echo "    git clone https://github.com/ggml-org/llama.cpp /tmp/llama.cpp"
+    echo "    cd /tmp/llama.cpp && cmake -B build && cmake --build build --target llama-quantize"
+    echo "    cp build/bin/llama-quantize $INCLUDE_DIR/bin/"
+    echo "    cp build/bin/lib*.so* $INCLUDE_DIR/bin/"
+    echo ""
 fi
 
 # ── Database migration ──
+source .env 2>/dev/null || true
 if [ -n "$SUPABASE_DB_URL" ]; then
     info "Running database migrations..."
     alembic upgrade head

@@ -24,28 +24,21 @@ from src.supabase_manager import SupabaseManager
 logger = logging.getLogger(__name__)
 
 
-def _get_llama_cpp_dir() -> Path:
-    """Get llama.cpp directory from LLAMA_CPP_DIR env var."""
-    llama_dir = os.environ.get("LLAMA_CPP_DIR", "")
-    return Path(llama_dir) if llama_dir else Path("")
+# Vendored llama.cpp tools live in include/llama/ relative to project root
+_PROJECT_ROOT = Path(__file__).resolve().parent.parent.parent
+_INCLUDE_DIR = _PROJECT_ROOT / "include" / "llama"
 
 
 def _get_convert_lora_script() -> Path:
-    """Find convert_lora_to_gguf.py from LLAMA_CPP_DIR."""
-    script = _get_llama_cpp_dir() / "convert_lora_to_gguf.py"
-    return script if script.exists() else Path("")
+    return _INCLUDE_DIR / "convert_lora_to_gguf.py"
 
 
 def _get_convert_hf_script() -> Path:
-    """Find convert_hf_to_gguf.py from LLAMA_CPP_DIR."""
-    script = _get_llama_cpp_dir() / "convert_hf_to_gguf.py"
-    return script if script.exists() else Path("")
+    return _INCLUDE_DIR / "convert_hf_to_gguf.py"
 
 
 def _get_quantize_binary() -> Path:
-    """Find llama-quantize binary from LLAMA_CPP_DIR/build/bin/."""
-    binary = _get_llama_cpp_dir() / "build" / "bin" / "llama-quantize"
-    return binary if binary.exists() else Path("")
+    return _INCLUDE_DIR / "bin" / "llama-quantize"
 
 
 # Quantization types available in the UI (no f16/f32)
@@ -126,10 +119,19 @@ class _StreamingCallback(TrainerCallback):
 class GGUFAdapterTrainer:
     def __init__(self, hf_model_id: str):
         if not is_gguf_available():
+            missing = []
+            try:
+                import peft, trl  # noqa: F401
+            except ImportError:
+                missing.append("pip install torch transformers peft trl datasets accelerate")
+            if not _get_convert_lora_script().exists():
+                missing.append(f"convert_lora_to_gguf.py not found at {_INCLUDE_DIR}")
+            if not _get_convert_hf_script().exists():
+                missing.append(f"convert_hf_to_gguf.py not found at {_INCLUDE_DIR}")
+            if not _get_quantize_binary().exists():
+                missing.append(f"llama-quantize not found at {_INCLUDE_DIR / 'bin'}")
             raise RuntimeError(
-                "Training dependencies not available.\n"
-                "Install: pip install torch transformers peft trl datasets accelerate\n"
-                "Set LLAMA_CPP_DIR in .env to point to your llama.cpp directory."
+                "Training dependencies not available:\n" + "\n".join(f"  - {m}" for m in missing)
             )
 
         self.hf_model_id = hf_model_id
@@ -346,7 +348,12 @@ class GGUFAdapterTrainer:
         ]
         logger.info(f"Running: {' '.join(quant_cmd)}")
 
-        result = subprocess.run(quant_cmd, capture_output=True)
+        # Set LD_LIBRARY_PATH so llama-quantize finds vendored .so files
+        quant_env = os.environ.copy()
+        bin_dir = str(_INCLUDE_DIR / "bin")
+        quant_env["LD_LIBRARY_PATH"] = bin_dir + ":" + quant_env.get("LD_LIBRARY_PATH", "")
+
+        result = subprocess.run(quant_cmd, capture_output=True, env=quant_env)
         if result.returncode != 0:
             err_msg = (result.stderr or result.stdout or b"Unknown error").decode("utf-8", errors="replace")
             yield ({"event": "error", "message": err_msg}, f"Quantization failed:\n{err_msg}")
